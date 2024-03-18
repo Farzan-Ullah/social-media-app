@@ -21,7 +21,7 @@ function CollapsibleExample() {
             height="30"
             className="d-inline-block align-top"
           />{" "}
-          Social Media App
+          &nbsp; Social Media App
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

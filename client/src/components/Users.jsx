@@ -3,11 +3,11 @@ import Card from "react-bootstrap/Card";
 
 function User({ user }) {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "18rem", marginTop: "10px" }}>
       <Card.Img variant="top" src={user.avatar} />
       <Card.Body>
         <Card.Title>
-          {user.first_name} {user.last_name}
+          {user.firstName} {user.lastName}
         </Card.Title>
         <Card.Text>{user.email}</Card.Text>
         <Button variant="dark">Follow</Button>

@@ -4,8 +4,11 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
+const cors = require("cors");
 
+app.use(cors());
 app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 const User = mongoose.model("User", {
   firstName: String,
@@ -36,12 +39,13 @@ app.get("/users", async (req, res) => {
 
 //Create (POST)
 app.post("/users", async (req, res) => {
-  const { firstName, lastName, classNumber } = req.body;
+  const { firstName, lastName, email, avatar } = req.body;
   try {
     await User.create({
       firstName,
       lastName,
-      class: classNumber,
+      email,
+      avatar,
     });
     res.json({
       status: "SUCCESS",
@@ -57,12 +61,13 @@ app.post("/users", async (req, res) => {
 //update (PATCH)
 app.patch("/users/:id", async (req, res) => {
   const { id } = req.params;
-  const { firstName, lastName, classNumber } = req.body;
+  const { firstName, lastName, email, avatar } = req.body;
   try {
     await User.findByIdAndUpdate(id, {
       firstName,
       lastName,
-      class: classNumber,
+      email,
+      avatar,
     });
     res.json({
       status: "SUCCESS",
@@ -92,32 +97,32 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 //Search Users
-app.get("/users", async (req, res) => {
-  try {
-    console.log(req.query);
-    const { firstName, lastName, classNumber } = req.query;
-    const query = {};
-    if (firstName) {
-      query.firstName = firstName;
-    }
-    if (lastName) {
-      query.lastName = lastName;
-    }
-    if (classNumber) {
-      query.class = classNumber;
-    }
-    const users = await User.find(query);
-    res.json({
-      status: "SUCCESS",
-      data: users,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "FAILED",
-      message: "Something Went Wrong!",
-    });
-  }
-});
+// app.get("/users", async (req, res) => {
+//   try {
+//     console.log(req.query);
+//     const { firstName, lastName, classNumber } = req.query;
+//     const query = {};
+//     if (firstName) {
+//       query.firstName = firstName;
+//     }
+//     if (lastName) {
+//       query.lastName = lastName;
+//     }
+//     if (classNumber) {
+//       query.class = classNumber;
+//     }
+//     const users = await User.find(query);
+//     res.json({
+//       status: "SUCCESS",
+//       data: users,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: "FAILED",
+//       message: "Something Went Wrong!",
+//     });
+//   }
+// });
 
 app.listen(process.env.PORT, () => {
   mongoose
